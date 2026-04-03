@@ -17,6 +17,9 @@ def create_exe():
         "modern_ui.py",
         "cover_manager.py",
         "PSP_GAMES.tsv",
+        "PSP_UPDATES.tsv",
+        "PSP_DLCS.tsv",
+        "PSP_THEMES.tsv",
         "pkg2zip.exe",
         "run_psp_freeshop.py"
     ]
@@ -42,10 +45,13 @@ def create_exe():
         "--windowed",          # Sem console
         "--name=PSPFreeshop", # Nome do executável
         "--icon=icon.ico",      # Ícone (se existir)
-        "--add-data=PSP_GAMES.tsv;PSP_GAMES.tsv",  # Incluir TSV
-        "--add-data=pkg2zip.exe;pkg2zip.exe",      # Incluir pkg2zip
-        "--add-data=downloads;downloads",              # Incluir pasta downloads
-        "--add-data=covers_cache.json;covers_cache.json", # Incluir cache
+        "--add-data=PSP_GAMES.tsv;.",  # Incluir TSV
+        "--add-data=PSP_UPDATES.tsv;.",
+        "--add-data=PSP_DLCS.tsv;.",
+        "--add-data=PSP_THEMES.tsv;.",
+        "--add-data=pkg2zip.exe;.",      # Incluir pkg2zip
+        "--add-data=CoversCompressed;CoversCompressed", 
+        "--add-data=themes;themes", 
         "run_psp_freeshop.py"
     ]
     
