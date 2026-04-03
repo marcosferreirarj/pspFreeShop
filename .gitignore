@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Build / distribution
+build/
+*.spec
+
+# Runtime cache
+content_cache.json
+covers_cache.json
+
+# Runtime directories
+downloads/
+temp_dl/
+
+# IDE
+.vscode/
+.idea/
+
+#file
