@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pspFreeShop Enhanced — Onde a nostalgia e o moderno se encontram</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;500;700;900&family=Orbitron:wght@600;900&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="lang-pt">
+    <!-- Background Patterns -->
+    <div class="bg-glow"></div>
+    <div class="bg-symbols"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo-text">pspFreeShop <span class="accent-text">Enhanced</span></div>
+            <div class="nav-actions">
+                <button id="lang-toggle" class="btn-lang glass-btn" onclick="toggleLanguage()">
+                    <span class="lang-text pt-text">EN / EN</span>
+                    <span class="lang-text en-text">PT / BR</span>
+                </button>
+                <a href="https://github.com/marcosferreirarj/pspFreeShop/releases" class="btn-primary glass-btn">
+                    <span class="pt-text">Download</span>
+                    <span class="en-text">Download</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container animate-up">
+            <h1 class="hero-title pt-text">O melhor do PSP<br><span class="gradient-text">Na palma da mão</span></h1>
+            <h1 class="hero-title en-text">The Best of PSP<br><span class="gradient-text">In your hands</span></h1>
+            
+            <p class="hero-desc pt-text">
+                Explore, baixe e instale jogos, DLCs e atualizações repositórios 
+                Sony diretamente no seu console com um clique.
+            </p>
+            <p class="hero-desc en-text">
+                Explore, download, and install games, DLCs, and updates from Sony repositories 
+                directly to your console with one click.
+            </p>
+
+            <div class="hero-cta">
+                <a href="https://github.com/marcosferreirarj/pspFreeShop/releases" class="cta-primary glass-btn">
+                    <span class="pt-text">Baixar Versão Estável</span>
+                    <span class="en-text">Download Official Release</span>
+                    <i data-lucide="download"></i>
+                </a>
+            </div>
+
+            <div class="hero-banner-container glass-card">
+                <img src="assets/banner_freeshop.png" alt="pspFreeShop Banner" class="hero-banner">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header animate-up">
+                <h2 class="pt-text">Funcionalidades <span class="accent-text">Premium</span></h2>
+                <h2 class="en-text">Premium <span class="accent-text">Features</span></h2>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card glass-card animate-up">
+                    <div class="feature-icon"><i data-lucide="gamepad-2"></i></div>
+                    <h3 class="pt-text">Biblioteca Completa</h3>
+                    <h3 class="en-text">Full Library</h3>
+                    <p class="pt-text">Milhares de títulos de todas as regiões, organizados por nome e tamanho.</p>
+                    <p class="en-text">Thousands of titles from all regions, organized by name and size.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="feature-card glass-card animate-up">
+                    <div class="feature-icon"><i data-lucide="package-plus"></i></div>
+                    <h3 class="pt-text">Expansões & DLCs</h3>
+                    <h3 class="en-text">DLCs & Expansions</h3>
+                    <p class="pt-text">Conteúdo adicional oficial pronto para ser instalado no seu memory stick.</p>
+                    <p class="en-text">Official additional content ready to be installed on your memory stick.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="feature-card glass-card animate-up">
+                    <div class="feature-icon"><i data-lucide="refresh-ccw"></i></div>
+                    <h3 class="pt-text">Updates Automáticos</h3>
+                    <h3 class="en-text">Auto Updates</h3>
+                    <p class="pt-text">O app verifica automaticamente se seus jogos instalados possuem patches disponíveis.</p>
+                    <p class="en-text">The app automatically checks if your installed games have available patches.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="feature-card glass-card animate-up">
+                    <div class="feature-icon"><i data-lucide="zap"></i></div>
+                    <h3 class="pt-text">Fluxo One-Click</h3>
+                    <h3 class="en-text">One-Click Flow</h3>
+                    <p class="pt-text">Download, extração (pkg2zip) e transferência para o drive USB automática.</p>
+                    <p class="en-text">Automated download, extraction (pkg2zip), and transfer to the USB drive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start Guide -->
+    <section class="how-it-works">
+        <div class="container animate-up">
+            <div class="guide-card glass-card">
+                <div class="guide-content">
+                    <h2 class="pt-text">Como Começar?</h2>
+                    <h2 class="en-text">How to Start?</h2>
+                    
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <span class="step-num">01</span>
+                            <div class="step-text">
+                                <strong class="pt-text">Baixe o executável</strong>
+                                <strong class="en-text">Download the EXE</strong>
+                                <p class="pt-text">Vá até as releases e baixe o PSPFreeshop.zip.</p>
+                                <p class="en-text">Go to releases and download PSPFreeshop.zip.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-num">02</span>
+                            <div class="step-text">
+                                <strong class="pt-text">Conecte seu PSP</strong>
+                                <strong class="en-text">Connect your PSP</strong>
+                                <p class="pt-text">Ative a conexão USB no console e selecione o drive no app.</p>
+                                <p class="en-text">Enable USB connection on the console and select the drive in the app.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-num">03</span>
+                            <div class="step-text">
+                                <strong class="pt-text">Escolha e Jogue</strong>
+                                <strong class="en-text">Pick and Play</strong>
+                                <p class="pt-text">Procure o jogo que você quer e clique em baixar. O app faz o resto.</p>
+                                <p class="en-text">Search for the game you want and click download. The app does the rest.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social & Donations -->
+    <section class="community-section">
+        <div class="container animate-up">
+            <div class="community-grid">
+                <div class="social-links">
+                    <h4 class="pt-text">Nossas Redes</h4>
+                    <h4 class="en-text">Our Socials</h4>
+                    <div class="icon-group">
+                        <a href="#" class="social-icon glass-btn"><i data-lucide="github"></i></a>
+                        <a href="#" class="social-icon glass-btn"><i data-lucide="message-circle"></i></a>
+                        <a href="#" class="social-icon glass-btn"><i data-lucide="youtube"></i></a>
+                    </div>
+                </div>
+                <div class="donation-links">
+                    <h4 class="pt-text">Apoie o Projeto</h4>
+                    <h4 class="en-text">Support the Project</h4>
+                    <div class="icon-group">
+                        <a href="#" class="social-icon glass-btn donate-btn">
+                            <i data-lucide="heart"></i>
+                        </a>
+                        <a href="#" class="social-icon glass-btn donate-btn">
+                            <i data-lucide="coffee"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p class="pt-text">© 2026 pspFreeShop Enhanced. Todos os direitos reservados.</p>
+                    <p class="en-text">© 2026 pspFreeShop Enhanced. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+                    <p class="pt-text">Desenvolvido com ❤️ para a comunidade.</p>
+                    <p class="en-text">Developed with ❤️ for the community.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
