@@ -307,6 +307,13 @@ class GameGrid(ctk.CTkScrollableFrame):
         self.selected_games      = []
         self.last_selected_index = -1
 
+        # Resetar scroll do canvas para corrigir sumiço das cartas (bug)
+        try:
+            if hasattr(self, '_parent_canvas'):
+                self._parent_canvas.yview_moveto(0)
+        except Exception:
+            pass
+
         if not games:
             self._show_empty_message()
             return

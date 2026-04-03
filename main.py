@@ -38,6 +38,7 @@ COLORS = {
     'tab_installed':  '#ff5566',
     'tab_updates':    '#7c6cfc',
     'tab_dlcs':       '#ffaa44',
+    'tab_themes':     '#e67e22',
     'text':           '#e0e0ef',
     'text_muted':     '#7a7a9a',
     'text_dim':       '#3a3a5a',
@@ -69,7 +70,7 @@ TRANSLATIONS = {
         "tab_installed": "💾 Jogos Instalados",
         "tab_updates":   "🔄 Atualizações",
         "tab_dlcs":      "📦 DLCs",
-        # "tab_themes":  "🎨 Temas",  # TODO: Implementar futuramente
+        "tab_themes":    "🎨 Temas",
 
         # Diálogo de idioma
         "lang_dialog_title": "Selecionar Idioma",
@@ -83,6 +84,7 @@ TRANSLATIONS = {
         "filter_type_label":  "📋 Tipo",
         "filter_region_label":"🌍 Região",
         "filter_sort_label":  "📊 Ordenar",
+        "btn_clear_filters":  "🧹 Limpar Filtro",
         "all_types":          "Todas",
         "all_regions":        "Todas",
         "sort_name":          "Nome",
@@ -184,7 +186,7 @@ TRANSLATIONS = {
         "group_game":        "Jogo",
         "group_type":        "Tipo",
 
-        # Aba Temas (mantida desativada)
+        # Aba Temas
         "themes_header":     "🎨 Temas Personalizados",
         "author_label":      "Autor:",
         "author_all":        "Todos",
@@ -313,7 +315,7 @@ TRANSLATIONS = {
         "tab_installed": "💾 Installed",
         "tab_updates":   "🔄 Updates",
         "tab_dlcs":      "📦 DLCs",
-        # "tab_themes":  "🎨 Themes",  # TODO: Implement later
+        "tab_themes":    "🎨 Themes",
 
         # Language dialog
         "lang_dialog_title": "Select Language",
@@ -327,6 +329,7 @@ TRANSLATIONS = {
         "filter_type_label":  "📋 Type",
         "filter_region_label":"🌍 Region",
         "filter_sort_label":  "📊 Sort",
+        "btn_clear_filters":  "🧹 Clear Filters",
         "all_types":          "All",
         "all_regions":        "All",
         "sort_name":          "Name",
@@ -428,7 +431,7 @@ TRANSLATIONS = {
         "group_game":        "Game",
         "group_type":        "Type",
 
-        # Themes tab (kept disabled)
+        # Themes tab
         "themes_header":     "🎨 Custom Themes",
         "author_label":      "Author:",
         "author_all":        "All",
@@ -822,6 +825,7 @@ class PSPFreeshopApp(ctk.CTk):
         self.TAB_INSTALLED = self.t('tab_installed')
         self.TAB_UPDATES   = self.t('tab_updates')
         self.TAB_DLCS      = self.t('tab_dlcs')
+        self.TAB_THEMES    = self.t('tab_themes')
 
         # Limpar frames e botões existentes
         for frame in list(self.tab_frames.values()):
@@ -838,6 +842,7 @@ class PSPFreeshopApp(ctk.CTk):
             (self.TAB_INSTALLED, COLORS['tab_installed']),
             (self.TAB_UPDATES,   COLORS['tab_updates']),
             (self.TAB_DLCS,      COLORS['tab_dlcs']),
+            (self.TAB_THEMES,    COLORS['tab_themes']),
         ]
 
         for tab_name, color in tab_configs:
@@ -867,6 +872,7 @@ class PSPFreeshopApp(ctk.CTk):
 
         self._setup_updates_tab()
         self._setup_dlcs_tab()
+        self._setup_themes_tab()
 
         self._switch_tab(self.TAB_STORE)
 
@@ -885,6 +891,7 @@ class PSPFreeshopApp(ctk.CTk):
             self.TAB_INSTALLED: COLORS['tab_installed'],
             self.TAB_UPDATES:   COLORS['tab_updates'],
             self.TAB_DLCS:      COLORS['tab_dlcs'],
+            self.TAB_THEMES:    COLORS['tab_themes'],
         }
 
         for name, btn in self.sidebar_btns.items():
@@ -920,6 +927,9 @@ class PSPFreeshopApp(ctk.CTk):
         self.filter_type_label_widget.configure(text=self.t('filter_type_label'))
         self.filter_region_label_widget.configure(text=self.t('filter_region_label'))
         self.filter_sort_label_widget.configure(text=self.t('filter_sort_label'))
+        
+        if hasattr(self, 'clear_filters_btn'):
+            self.clear_filters_btn.configure(text=self.t('btn_clear_filters'))
 
         # Valores dos filtros
         all_types   = self.t('all_types')
@@ -1333,6 +1343,21 @@ class PSPFreeshopApp(ctk.CTk):
         )
         self.sort_filter.pack(side="left")
         self.sort_filter.set("Nome")
+        
+        self.clear_filters_btn = ctk.CTkButton(
+            search_row,
+            text="🧹 Limpar Filtro",
+            width=130,
+            height=38,
+            fg_color=COLORS['bg_card'],
+            hover_color=COLORS['sidebar_active'],
+            border_color=COLORS['border'],
+            border_width=1,
+            text_color=COLORS['text'],
+            corner_radius=10,
+            command=self._clear_filters,
+        )
+        self.clear_filters_btn.pack(side="left", padx=(12, 0))
 
         # ── CONTAINER DE ABAS ────────────────────────────────────────────────
         self.tab_container = ctk.CTkFrame(self.content_area, fg_color="transparent")
@@ -1534,6 +1559,24 @@ class PSPFreeshopApp(ctk.CTk):
         )
         refresh_btn.pack(side="right", pady=10, padx=12)
 
+        self.installed_type_filter = ctk.CTkComboBox(
+            header_frame,
+            values=["Todos", "Jogos", "Temas"],
+            width=120,
+            height=32,
+            fg_color=COLORS['bg_card'],
+            border_color=COLORS['border'],
+            text_color=COLORS['text'],
+            button_color=COLORS['border'],
+            button_hover_color=COLORS['accent'],
+            dropdown_fg_color=COLORS['bg_card'],
+            dropdown_text_color=COLORS['text'],
+            corner_radius=8,
+            command=lambda e: self._apply_filters_installed(),
+        )
+        self.installed_type_filter.pack(side="right", pady=10, padx=12)
+        self.installed_type_filter.set("Todos")
+
         # Grid de jogos instalados
         self.installed_games_frame = GameGrid(installed_frame, self._on_game_select, self._on_game_right_click, self._on_multi_select,
                                               selection_color=COLORS['tab_installed'], selection_bg="#2e0a12",
@@ -1609,6 +1652,29 @@ class PSPFreeshopApp(ctk.CTk):
                             'last_modified': ''
                         })
 
+            # Procurar na pasta PSP/THEME
+            psp_theme_path = os.path.join(self.selected_drive_path, "PSP", "THEME")
+            if os.path.exists(psp_theme_path):
+                # Listar arquivos .ptf
+                for file_path in glob.glob(os.path.join(psp_theme_path, "*.ptf")):
+                    file_name = os.path.basename(file_path)
+                    file_size = os.path.getsize(file_path)
+                    
+                    theme_name = file_name[:-4] if file_name.endswith('.ptf') else file_name
+                    
+                    installed_games.append({
+                        'name': theme_name,
+                        'title_id': 'THEME',
+                        'region': 'Unknown',
+                        'type': 'Tema',
+                        'file_size': str(file_size),
+                        'installed_path': file_path,
+                        'pkg_link': '',
+                        'content_id': '',
+                        'last_modified': ''
+                    })
+
+
             # Guardar lista completa para filtros dinâmicos
             self.all_installed_games = installed_games
 
@@ -1672,6 +1738,7 @@ class PSPFreeshopApp(ctk.CTk):
             self.TAB_INSTALLED: (self.t('btn_delete_game'),     COLORS['error'],         "#dd4455"),
             self.TAB_UPDATES:   (self.t('btn_download_update'), COLORS['tab_updates'],   "#6d5deb"),
             self.TAB_DLCS:      (self.t('btn_download_dlc'),    COLORS['tab_dlcs'],      "#dd9933"),
+            self.TAB_THEMES:    (self.t('btn_install_theme'),   COLORS['tab_themes'],    "#d35400"),
         }
         text, fg, hover = tab_btn_config.get(
             current_tab, (self.t('btn_download_game'), COLORS['success'], "#00b894")
@@ -1688,6 +1755,10 @@ class PSPFreeshopApp(ctk.CTk):
             self._load_dlcs_on_demand()
             if self.dlcs_loaded:
                 self._apply_filters_dlcs()
+        elif current_tab == self.TAB_THEMES:
+            self._load_themes_on_demand()
+            if self.themes_loaded:
+                self._apply_filters_themes()
         else:  # Store
             if hasattr(self, 'all_games') and self.all_games:
                 self._apply_filters_store()
@@ -1814,46 +1885,50 @@ class PSPFreeshopApp(ctk.CTk):
         self.dlc_next_btn.pack(side="right", padx=10)
 
     def _setup_themes_tab(self):
-        """Configura aba de Temas — mantida mas não chamada (TODO: Implementar futuramente)"""
-        tab = self.tabview.tab("🎨 Temas")
+        """Configura aba de Temas."""
+        tab = self.tab_frames[self.TAB_THEMES]
 
-        # Frame principal da aba
-        themes_frame = ctk.CTkFrame(tab)
-        themes_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        themes_frame = ctk.CTkFrame(tab, fg_color="transparent")
+        themes_frame.pack(fill="both", expand=True, padx=8, pady=8)
 
-        # Header
-        header_frame = ctk.CTkFrame(themes_frame)
-        header_frame.pack(fill="x", pady=(0, 10))
+        header_frame = ctk.CTkFrame(themes_frame, fg_color=COLORS['bg_card'], corner_radius=10)
+        header_frame.pack(fill="x", pady=(0, 8))
 
         ctk.CTkLabel(
             header_frame,
-            text="🎨 Temas Personalizados",
-            font=ctk.CTkFont(size=18, weight="bold"),
-            text_color="#e67e22"
-        ).pack(pady=10)
+            text=self.t('themes_header'),
+            font=ctk.CTkFont(size=16, weight="bold"),
+            text_color=COLORS['tab_themes'],
+        ).pack(side="left", pady=12, padx=16)
 
-        # Filtros de temas
-        filters_frame = ctk.CTkFrame(header_frame)
-        filters_frame.pack(fill="x", padx=10, pady=5)
-
-        ctk.CTkLabel(filters_frame, text="Autor:").pack(side="left", padx=5)
-        self.theme_author_filter = ctk.CTkComboBox(
-            filters_frame,
-            values=["Todos"],
-            width=120,
-            command=self._filter_themes
-        )
-        self.theme_author_filter.pack(side="left", padx=5)
-        self.theme_author_filter.set("Todos")
-
-        # Grid de temas
         self.themes_frame = GameGrid(themes_frame, self._on_game_select, self._on_game_right_click, self._on_multi_select,
-                                     selection_color="#e67e22", selection_bg="#3d2510",
+                                     selection_color=COLORS['tab_themes'], selection_bg="#3d2510",
                                      covers_dir=get_resource_path("CoversCompressed"))
         self.themes_frame.pack(fill="both", expand=True)
 
-        # Adicionar evento para carregar quando a aba for selecionada
-        self.tabview.tab("🎨 Temas").bind("<Button-1>", lambda e: self._load_themes_on_demand())
+        theme_nav = ctk.CTkFrame(themes_frame, fg_color="transparent")
+        theme_nav.pack(fill="x", pady=(5, 0))
+
+        self.theme_prev_btn = ctk.CTkButton(
+            theme_nav, text="◀ Anterior", width=110, height=30,
+            fg_color=COLORS['bg_card'], hover_color=COLORS['sidebar_active'],
+            border_color=COLORS['border'], border_width=1, text_color=COLORS['text_muted'],
+            corner_radius=8, command=self._prev_page_themes
+        )
+        self.theme_prev_btn.pack(side="left", padx=10)
+
+        self.theme_page_label = ctk.CTkLabel(
+            theme_nav, text="Página 1", font=ctk.CTkFont(size=12), text_color=COLORS['text_muted']
+        )
+        self.theme_page_label.pack(side="left", expand=True)
+
+        self.theme_next_btn = ctk.CTkButton(
+            theme_nav, text="Próxima ▶", width=110, height=30,
+            fg_color=COLORS['bg_card'], hover_color=COLORS['sidebar_active'],
+            border_color=COLORS['border'], border_width=1, text_color=COLORS['text_muted'],
+            corner_radius=8, command=self._next_page_themes
+        )
+        self.theme_next_btn.pack(side="right", padx=10)
 
     # Métodos de callback
     def _on_game_select(self, game_data):
@@ -1898,11 +1973,12 @@ class PSPFreeshopApp(ctk.CTk):
             )
             menu.add_separator()
 
-        # Opção de excluir
-        menu.add_command(
-            label=self.t('ctx_delete', name=game_data.get('name', 'Game')),
-            command=lambda: self._delete_game(game_data)
-        )
+        # Opção de excluir (apenas para jogos instalados)
+        if game_data.get('installed_path'):
+            menu.add_command(
+                label=self.t('ctx_delete', name=game_data.get('name', 'Game')),
+                command=lambda: self._delete_game(game_data)
+            )
 
         # Opção de renomear (apenas para jogos instalados)
         if game_data.get('installed_path'):
@@ -2316,9 +2392,16 @@ class PSPFreeshopApp(ctk.CTk):
                 pass
         self._dlc_filter_after = self.after(150, self._apply_filters_dlcs)
 
-    def _filter_themes(self, choice):
-        """Filtra temas por autor"""
-        print(f"[DEBUG] Filtrando temas por: {choice}")
+    def _filter_themes(self, choice=None):
+        """Filtra temas por busca"""
+        if not hasattr(self, '_apply_filters_themes'):
+            return
+        if hasattr(self, '_theme_filter_after'):
+            try:
+                self.after_cancel(self._theme_filter_after)
+            except Exception:
+                pass
+        self._theme_filter_after = self.after(150, self._apply_filters_themes)
 
     def _load_updates_on_demand(self):
         """Carrega atualizações apenas quando solicitado"""
@@ -2398,29 +2481,39 @@ class PSPFreeshopApp(ctk.CTk):
             print(f"[DEBUG] Erro ao carregar DLCs: {e}")
 
     def _load_themes(self):
-        """Carrega temas na aba correspondente"""
+        """Carrega temas da pasta local 'themes'."""
         try:
-            themes = self.content_matcher.theme_manager.get_all_themes()
-            self.status_label.configure(text=self.t('status_loaded_themes', count=len(themes)))
-            print(f"[DEBUG] Carregados {len(themes)} temas")
+            self.status_label.configure(text=self.t('status_loading_themes'))
+            themes_dir = get_resource_path("themes")
+            theme_games = []
+            
+            if os.path.exists(themes_dir):
+                for file_name in os.listdir(themes_dir):
+                    if file_name.lower().endswith(('.ptf', '.ctf')):
+                        file_path = os.path.join(themes_dir, file_name)
+                        file_size = os.path.getsize(file_path)
+                        modified_time = os.path.getmtime(file_path)
+                        date_str = time.strftime('%Y-%m-%d', time.localtime(modified_time))
+                        
+                        theme_games.append({
+                            'name': file_name,
+                            'region': 'Unknown',
+                            'type': 'Theme',
+                            'file_size': str(file_size),
+                            'last_modified': date_str,
+                            'title_id': file_name,
+                            'installed_path': file_path,
+                            'content_id': '',
+                            'pkg_link': ''
+                        })
+            
+            self.all_themes_data = theme_games
+            self.theme_page = 1
+            self.status_label.configure(text=self.t('status_loaded_themes', count=len(theme_games)))
+            print(f"[DEBUG] Carregados {len(theme_games)} temas da pasta local")
 
-            # Exibir temas no grid
-            if hasattr(self, 'themes_frame') and themes:
-                # Converter para formato esperado pelo GameGrid
-                theme_games = []
-                for theme in themes:
-                    theme_games.append({
-                        'name': theme.get('Name', 'Unknown Theme'),
-                        'region': theme.get('Region', 'Unknown'),
-                        'type': 'Theme',
-                        'file_size': theme.get('File Size', '0'),
-                        'last_modified': theme.get('Last Modification Date', ''),
-                        'title_id': theme.get('Title ID', ''),
-                        'pkg_link': theme.get('PKG direct link', theme.get('PKG Link', '')),
-                        'content_id': theme.get('Content ID', '')
-                    })
-
-                self.themes_frame.display_games(theme_games)
+            if hasattr(self, 'themes_frame') and theme_games:
+                self._display_theme_page()
 
         except Exception as e:
             print(f"[DEBUG] Erro ao carregar temas: {e}")
@@ -2528,8 +2621,47 @@ class PSPFreeshopApp(ctk.CTk):
             self.dlc_page += 1
             self._display_dlc_page()
 
+    # ── Paginação de Temas ──────────────────────────────────────────────────────
+
+    def _display_theme_page(self):
+        if not hasattr(self, 'themes_frame'):
+            return
+        per_page = 50
+        start = (self.theme_page - 1) * per_page
+        end   = start + per_page
+        page_items = self.all_themes_data[start:end]
+        self.themes_frame.display_games(page_items)
+        total_pages = max(1, -(-len(self.all_themes_data) // per_page))
+        self.theme_page_label.configure(text=self.t('page_of', page=self.theme_page, total=total_pages))
+        self.theme_prev_btn.configure(state="normal" if self.theme_page > 1 else "disabled")
+        self.theme_next_btn.configure(state="normal" if self.theme_page < total_pages else "disabled")
+
+    def _prev_page_themes(self):
+        if self.theme_page > 1:
+            self.theme_page -= 1
+            self._display_theme_page()
+
+    def _next_page_themes(self):
+        per_page = 50
+        total_pages = max(1, -(-len(self.all_themes_data) // per_page))
+        if self.theme_page < total_pages:
+            self.theme_page += 1
+            self._display_theme_page()
+
     def _search(self):
         """Busca conteúdo na aba ativa usando os filtros atuais"""
+        self._apply_filters()
+
+    def _clear_filters(self):
+        """Reseta todos os filtros e barra de busca para o padrão"""
+        self.search_entry.delete(0, 'end')
+        self.type_filter.set(self.t('all_types'))
+        self.region_filter.set(self.t('all_regions'))
+        self.sort_filter.set(self.t('sort_name'))
+        
+        if hasattr(self, 'installed_type_filter'):
+            self.installed_type_filter.set("Todos")
+            
         self._apply_filters()
 
     def _apply_filters(self):
@@ -2584,7 +2716,15 @@ class PSPFreeshopApp(ctk.CTk):
         region_filter = self.region_filter.get() if hasattr(self, 'region_filter') else ''
         all_regions_val = self.t('all_regions')
 
+        # Filtro exclusivo dessa aba
+        local_type_filter = self.installed_type_filter.get() if hasattr(self, 'installed_type_filter') else 'Todos'
+
         filtered = self.all_installed_games[:]
+
+        if local_type_filter == "Jogos":
+            filtered = [g for g in filtered if not str(g.get('installed_path', '')).lower().endswith('.ptf')]
+        elif local_type_filter == "Temas":
+            filtered = [g for g in filtered if str(g.get('installed_path', '')).lower().endswith('.ptf')]
 
         if region_filter and region_filter != all_regions_val:
             filtered = [g for g in filtered if g.get('region', '') == region_filter]
@@ -2656,6 +2796,27 @@ class PSPFreeshopApp(ctk.CTk):
             text=self.t('status_dlcs_region', count=len(all_dlcs),
                         region=region_filter if region_filter != all_regions_val else self.t('all_regions_combo'))
         )
+
+    def _apply_filters_themes(self):
+        """Filtra temas pela busca e pagina."""
+        if not hasattr(self, 'themes_frame') or not getattr(self, 'themes_loaded', False):
+            return
+
+        query = self.search_entry.get().strip().lower()
+        
+        if not hasattr(self, '_original_themes_data'):
+            self._original_themes_data = getattr(self, 'all_themes_data', [])[:]
+
+        all_themes = self._original_themes_data
+
+        if query:
+            filtered = [t for t in all_themes if query in t.get('name', '').lower()]
+        else:
+            filtered = all_themes[:]
+
+        self.all_themes_data = filtered
+        self.theme_page = 1
+        self._display_theme_page()
 
     # ---- Ordenação ------------------------------------------------------------
 
@@ -3166,100 +3327,32 @@ class PSPFreeshopApp(ctk.CTk):
             self._cleanup_temp_dir(temp_path)
 
     def _download_theme_internal(self, game):
-        """Faz download de um tema PSP e instala em PSP/THEME/ no drive."""
-        pkg_link = game.get('pkg_link', '')
-        if not pkg_link:
-            raise Exception(self.t('err_no_link_theme', name=game.get('name', '?')))
+        """Instala um tema local em PSP/THEME/ no drive."""
+        source_path = game.get('installed_path', '')
+        if not source_path or not os.path.exists(source_path):
+            raise Exception("Arquivo de tema local não encontrado")
 
-        game_name  = game.get('name', '?')
-        content_id = game.get('content_id', 'theme')
-
-        if not os.path.exists(TEMP_DIR):
-            os.makedirs(TEMP_DIR)
-
-        file_name = f"{content_id}.pkg"
-        temp_path = os.path.join(TEMP_DIR, file_name)
+        game_name = game.get('name', '?')
 
         try:
-            # === FASE 1: Download (0% → 50%) ===
             self.after(0, lambda: self.status_label.configure(
-                text=self.t('status_dl_theme_pct', name=game_name, pct=0)
-            ))
-            response = requests.get(pkg_link, stream=True, timeout=60)
-            response.raise_for_status()
-
-            total_size = int(response.headers.get('content-length', 0))
-            downloaded = 0
-            with open(temp_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192 * 4):
-                    if chunk:
-                        f.write(chunk)
-                        downloaded += len(chunk)
-                        if total_size > 0:
-                            pct = int(downloaded * 100 / total_size)
-                            self.after(0, lambda p=downloaded / total_size, pc=pct: (
-                                self.progress_bar.set(p * 0.50),
-                                self.status_label.configure(text=self.t('status_dl_theme_pct', name=game_name, pct=pc))
-                            ))
-
-            # === FASE 2: Extração (50% → 75%) ===
-            self.after(0, lambda: (
-                self.progress_bar.set(0.50),
-                self.status_label.configure(text=self.t('status_extract_theme', name=game_name))
+                text=self.t('status_install_theme_s', name=game_name)
             ))
 
-            def _log(line):
-                if line.strip():
-                    self.after(0, lambda ln=line: self.status_label.configure(
-                        text=self.t('status_pkg2zip', line=ln[:80])
-                    ))
+            target_dir = os.path.join(self.selected_drive_path, "PSP", "THEME")
+            if not os.path.exists(target_dir):
+                os.makedirs(target_dir)
 
-            zrif = game.get('rap', '')
-            try:
-                core.extract_pkg(temp_path, zrif, TEMP_DIR, extract_as_eboot=False, log_callback=_log)
-            except Exception as e:
-                print(f"[DEBUG] pkg2zip falhou para tema (continuando): {e}")
+            target_path = os.path.join(target_dir, os.path.basename(source_path))
+            
+            # Copiar arquivo
+            shutil.copy2(source_path, target_path)
 
-            # pkg2zip gera um ZIP contendo PSP/THEME/<id>.ptf — extrair antes de procurar o .ptf
-            import zipfile as _zipfile
-            for zf in glob.glob(os.path.join(TEMP_DIR, "*.zip")):
-                try:
-                    with _zipfile.ZipFile(zf, 'r') as z:
-                        z.extractall(TEMP_DIR)
-                    os.remove(zf)
-                except Exception as e:
-                    print(f"[DEBUG] Erro ao extrair ZIP de tema: {e}")
-
-            # === FASE 3: Instalação em PSP/THEME/ (75% → 100%) ===
-            self.after(0, lambda: (
-                self.progress_bar.set(0.75),
-                self.status_label.configure(text=self.t('status_install_theme_s', name=game_name))
+            self.after(0, lambda: self.status_label.configure(
+                text=self.t('status_theme_done', name=game_name)
             ))
-
-            theme_dest = os.path.join(self.selected_drive_path, "PSP", "THEME")
-            os.makedirs(theme_dest, exist_ok=True)
-
-            # Procurar .ptf gerado pelo pkg2zip (recursivamente, inclusive dentro do ZIP extraído)
-            ptf_files = glob.glob(os.path.join(TEMP_DIR, "**", "*.ptf"), recursive=True)
-            ptf_files.extend(glob.glob(os.path.join(TEMP_DIR, "*.ptf")))
-
-            if ptf_files:
-                for ptf in ptf_files:
-                    dest = os.path.join(theme_dest, os.path.basename(ptf))
-                    shutil.copy2(ptf, dest)
-            else:
-                # Fallback: copiar o .pkg renomeado como .ptf
-                ptf_name = f"{content_id}.ptf"
-                dest = os.path.join(theme_dest, ptf_name)
-                if os.path.exists(temp_path):
-                    shutil.copy2(temp_path, dest)
-
-            self.after(0, lambda: (
-                self.progress_bar.set(1.0),
-                self.status_label.configure(text=self.t('status_theme_done', name=game_name))
-            ))
-        finally:
-            self._cleanup_temp_dir(temp_path)
+        except Exception as e:
+            raise e
 
     def _download_game(self, game):
         """Faz o download do jogo selecionado"""

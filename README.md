@@ -27,16 +27,14 @@ Baseado nos bancos de dados NoPayStation, ele automatiza todo o processo de down
 | :--- | :--- | :---: |
 | 🎮 **Loja Integrada** | Navegue por milhares de jogos de todas as regiões (EUA, EUR, JAP). | ✅ |
 | 💾 **Gerenciamento** | Visualize e gerencie os jogos já instalados no seu memory stick. | ✅ |
-| 🔄 **Atualizações** | Verificação automática de updates disponíveis para seus jogos. | ✅ |
-| 📦 **DLCs** | Baixe conteúdos adicionais para expandir sua biblioteca. | ✅ |
+| 🔄 **Atualizações** | Verificação de updates disponíveis para seus jogos. | ✅ |
+| 📦 **DLCs** | Baixe conteúdos DLCs para expandir sua biblioteca. | ✅ |
 | ⚡ **Extração Automática** | Integração com `pkg2zip` para extrair arquivos PKG instantaneamente. | ✅ |
 | 🌍 **Multi-idioma** | Interface disponível em Português (BR) e Inglês. | ✅ |
+| 🎨 **Temas** | Interface disponível em Português (BR) e Inglês. | ✅ |
+| 🔒 **Segurança** | Downloads seguros direto dos servidores da Sony. | ✅ |
 
 ---
-
-## 📸 Capturas de Tela
-> [!TIP]
-> Adicione aqui prints da sua interface para mostrar a beleza do design em `CustomTkinter`! Salve-as na pasta `assets/` e linke-as abaixo.
 
 <div align="center">
   <!-- Exemplo de como adicionar prints -->
@@ -55,7 +53,7 @@ Siga os passos abaixo para começar a usar o **pspFreeShop** no seu Windows:
 Baixe a versão mais recente na seção de [Releases](https://github.com/marcosferreirarj/pspFreeShop/releases) ou o arquivo executável enviado pelo desenvolvedor.
 
 ### 2. Preparação do PSP
-1. Conecte seu PSP ao PC via cabo USB.
+1. Conecte seu PSP ao PC via cabo USB ou faça direto no SD card.
 2. Ative a **Conexão USB** no menu do console.
 
 ### 3. Utilizando o App
@@ -81,6 +79,7 @@ Baixe a versão mais recente na seção de [Releases](https://github.com/marcosf
 * **CustomTkinter**: Pela interface moderna e customizável.
 * **pkg2zip**: Pela ferramenta essencial de extração de pacotes.
 * **NoPayStation**: Pelos bancos de dados de conteúdo.
+* **PSPFreeshop**: Pelo projeto original.
 
 ---
 
