@@ -7,16 +7,20 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;500;700;900&family=Orbitron:wght@600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;500;700;900&family=Orbitron:wght@600;900&display=swap" rel="stylesheet">
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="lang-pt">
-    <!-- Background Patterns -->
-    <div class="bg-glow"></div>
-    <div class="bg-symbols"></div>
+    <!-- Dynamic Background -->
+    <div class="bg-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="bg-symbols"></div>
+    </div>
 
     <!-- Navigation Bar -->
     <nav class="glass-nav">
@@ -42,12 +46,12 @@
             <h1 class="hero-title en-text">The Best of PSP<br><span class="gradient-text">In your hands</span></h1>
             
             <p class="hero-desc pt-text">
-                Explore, baixe e instale jogos, DLCs e atualizações repositórios 
-                Sony diretamente no seu console com um clique.
+                Explore, baixe e instale jogos, DLCs e atualizações dos repositórios 
+                oficiais diretamente no seu console com apenas um clique.
             </p>
             <p class="hero-desc en-text">
-                Explore, download, and install games, DLCs, and updates from Sony repositories 
-                directly to your console with one click.
+                Explore, download, and install games, DLCs, and updates from official repositories 
+                directly to your console with just one click.
             </p>
 
             <div class="hero-cta">
@@ -58,7 +62,7 @@
                 </a>
             </div>
 
-            <div class="hero-banner-container glass-card">
+            <div class="hero-banner-container liquid-glass tilt-element">
                 <img src="assets/banner_freeshop.png" alt="pspFreeShop Banner" class="hero-banner">
             </div>
         </div>
@@ -74,7 +78,7 @@
             
             <div class="features-grid">
                 <!-- Feature 1 -->
-                <div class="feature-card glass-card animate-up">
+                <div class="feature-card liquid-glass animate-up tilt-element">
                     <div class="feature-icon"><i data-lucide="gamepad-2"></i></div>
                     <h3 class="pt-text">Biblioteca Completa</h3>
                     <h3 class="en-text">Full Library</h3>
@@ -82,7 +86,7 @@
                     <p class="en-text">Thousands of titles from all regions, organized by name and size.</p>
                 </div>
                 <!-- Feature 2 -->
-                <div class="feature-card glass-card animate-up">
+                <div class="feature-card liquid-glass animate-up tilt-element">
                     <div class="feature-icon"><i data-lucide="package-plus"></i></div>
                     <h3 class="pt-text">Expansões & DLCs</h3>
                     <h3 class="en-text">DLCs & Expansions</h3>
@@ -90,7 +94,7 @@
                     <p class="en-text">Official additional content ready to be installed on your memory stick.</p>
                 </div>
                 <!-- Feature 3 -->
-                <div class="feature-card glass-card animate-up">
+                <div class="feature-card liquid-glass animate-up tilt-element">
                     <div class="feature-icon"><i data-lucide="refresh-ccw"></i></div>
                     <h3 class="pt-text">Updates Automáticos</h3>
                     <h3 class="en-text">Auto Updates</h3>
@@ -98,7 +102,7 @@
                     <p class="en-text">The app automatically checks if your installed games have available patches.</p>
                 </div>
                 <!-- Feature 4 -->
-                <div class="feature-card glass-card animate-up">
+                <div class="feature-card liquid-glass animate-up tilt-element">
                     <div class="feature-icon"><i data-lucide="zap"></i></div>
                     <h3 class="pt-text">Fluxo One-Click</h3>
                     <h3 class="en-text">One-Click Flow</h3>
@@ -112,7 +116,7 @@
     <!-- Quick Start Guide -->
     <section class="how-it-works">
         <div class="container animate-up">
-            <div class="guide-card glass-card">
+            <div class="guide-card liquid-glass tilt-element">
                 <div class="guide-content">
                     <h2 class="pt-text">Como Começar?</h2>
                     <h2 class="en-text">How to Start?</h2>
@@ -155,16 +159,14 @@
     <section class="community-section">
         <div class="container animate-up">
             <div class="community-grid">
-                <div class="social-links">
+                <div class="social-links liquid-glass tilt-element" style="padding: 3rem; border-radius: 24px;">
                     <h4 class="pt-text">Nossas Redes</h4>
                     <h4 class="en-text">Our Socials</h4>
                     <div class="icon-group">
-                        <a href="#" class="social-icon glass-btn"><i data-lucide="github"></i></a>
-                        <a href="#" class="social-icon glass-btn"><i data-lucide="message-circle"></i></a>
-                        <a href="#" class="social-icon glass-btn"><i data-lucide="youtube"></i></a>
+                        <a href="https://github.com/marcosferreirarj/pspFreeShop" class="social-icon glass-btn"><i data-lucide="github"></i></a>
                     </div>
                 </div>
-                <div class="donation-links">
+                <div class="donation-links liquid-glass tilt-element" style="padding: 3rem; border-radius: 24px;">
                     <h4 class="pt-text">Apoie o Projeto</h4>
                     <h4 class="en-text">Support the Project</h4>
                     <div class="icon-group">

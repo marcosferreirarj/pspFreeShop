@@ -36,27 +36,66 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            // Stop observing once visible
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Initialize Animations
+// Vanilla Tilt 3D Effect
+function initTiltEffect() {
+    const tiltElements = document.querySelectorAll('.tilt-element');
+    
+    tiltElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left; // x position within the element
+            const y = e.clientY - rect.top;  // y position within the element
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Max rotation 10 degrees, reduce denominator to increase tilt
+            const tiltX = (y - centerY) / centerY * -8;
+            const tiltY = (x - centerX) / centerX * 8;
+            
+            el.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        });
+    });
+}
+
+// Initialize Animations and Effects
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll('.animate-up');
     animatedElements.forEach(el => observer.observe(el));
+    
+    // Initialize 3D Tilt Array
+    initTiltEffect();
 });
 
-// Subtle Parallax for BG Symbols
+// Subtle Parallax for BG Symbols and Dynamic Blob Movement on Mouse
 document.addEventListener('mousemove', (e) => {
     const symbols = document.querySelector('.bg-symbols');
-    if (!symbols) return;
+    const blob1 = document.querySelector('.blob-1');
+    const blob2 = document.querySelector('.blob-2');
     
     const x = e.clientX / window.innerWidth;
     const y = e.clientY / window.innerHeight;
     
-    symbols.style.transform = `translate(${x * 15}px, ${y * 15}px)`;
+    if (symbols) {
+        symbols.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+    }
+    
+    // Move blobs slightly away from mouse
+    if (blob1) {
+        blob1.style.transform = `translate(${x * -40}px, ${y * -40}px) scale(1.05)`;
+    }
+    if (blob2) {
+        blob2.style.transform = `translate(${x * 30}px, ${y * 30}px) scale(0.95)`;
+    }
 });
 
 // Glass Nav Scroll Effect
@@ -64,9 +103,11 @@ window.addEventListener('scroll', () => {
     const nav = document.querySelector('.glass-nav');
     if (window.scrollY > 50) {
         nav.style.padding = '0.5rem 0';
-        nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+        nav.style.background = 'rgba(10, 5, 20, 0.7)';
+        nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5), inset 0 -1px 0 rgba(255,255,255,0.05)';
     } else {
         nav.style.padding = '0';
-        nav.style.boxShadow = 'none';
+        nav.style.background = 'rgba(15, 10, 25, 0.4)';
+        nav.style.boxShadow = 'inset 0 -1px 0 rgba(255, 255, 255, 0.05)';
     }
 });
