@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import storeImg from "../../public/assets/Store.png";
+import installedImg from "../../public/assets/InstalledGames.png";
 
 interface AppPreviewProps {
   lang: "pt" | "en";
@@ -12,7 +14,7 @@ const TABS = [
     id: "store",
     labelPt: "Loja de Jogos",
     labelEn: "Game Store",
-    src: "/assets/Store.png",
+    src: storeImg,
     descPt: "Explore e baixe jogos de todas as regiões em poucos cliques.",
     descEn: "Browse and download games from all regions in just a few clicks.",
   },
@@ -20,7 +22,7 @@ const TABS = [
     id: "installed",
     labelPt: "Jogos Instalados",
     labelEn: "Installed Games",
-    src: "/assets/InstalledGames.png",
+    src: installedImg,
     descPt: "Gerencie sua biblioteca instalada diretamente pelo app.",
     descEn: "Manage your installed library directly from the app.",
   },
@@ -35,7 +37,7 @@ export default function AppPreview({ lang }: AppPreviewProps) {
       <div className="max-w-[1100px] mx-auto">
         {/* Heading */}
         <div className="text-center mb-16 scroll-reveal">
-          <h2 className="font-outfit text-5xl font-extrabold">
+          <h2 className="font-outfit text-5xl font-extrabold" style={{ letterSpacing: "-0.03em", lineHeight: "1.05" }}>
             {lang === "pt" ? (
               <>
                 Veja o App em{" "}
@@ -95,13 +97,11 @@ export default function AppPreview({ lang }: AppPreviewProps) {
           {/* Screenshot */}
           <div className="relative bg-[#080415]">
             <Image
-              key={current.src}
+              key={current.id}
               src={current.src}
               alt={lang === "pt" ? current.labelPt : current.labelEn}
-              width={1100}
-              height={700}
               className="w-full h-auto block"
-              style={{ animation: "previewFadeIn 0.35s ease" }}
+              style={{ animation: "previewFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1)" }}
               priority={active === "store"}
             />
             {/* Bottom caption bar */}

@@ -25,7 +25,8 @@
       "Bash(sed 's/-[0-9]*\\\\.png$//')",
       "Bash(ls c:/estudos/psp/*.py)",
       "Bash(ls c:/estudos/psp/*.exe)",
-      "Bash(ls c:/estudos/psp/*.tsv)"
+      "Bash(ls c:/estudos/psp/*.tsv)",
+      "Bash(npm run:*)"
     ]
   }
 }

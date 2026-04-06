@@ -144,7 +144,8 @@ export default function Home() {
           </div>
 
           <h1
-            className="hero-enter font-outfit text-5xl md:text-7xl lg:text-[5.2rem] font-black leading-tight mb-6 drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
+            className="hero-enter font-outfit text-5xl md:text-7xl lg:text-[5.5rem] font-black mb-6 drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
+            style={{ letterSpacing: "-0.04em", lineHeight: "1.0" }}
             data-delay="2"
           >
             {lang === "pt" ? (
@@ -219,7 +220,7 @@ export default function Home() {
       <section className="py-[100px] relative z-10" id="features">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-20 scroll-reveal">
-            <h2 className="font-outfit text-5xl font-extrabold">
+            <h2 className="font-outfit text-5xl font-extrabold" style={{ letterSpacing: "-0.03em", lineHeight: "1.05" }}>
               {lang === "pt" ? (
                 <>
                   Funcionalidades{" "}
@@ -305,7 +306,7 @@ export default function Home() {
       <section className="py-[100px] relative z-10 px-8" id="guide">
         <div className="max-w-[860px] mx-auto">
           <SpotlightCard className="scroll-reveal p-10 md:p-16 rounded-[28px]">
-            <h2 className="font-outfit text-4xl md:text-5xl font-bold text-center mb-16">
+            <h2 className="font-outfit text-4xl md:text-5xl font-bold text-center mb-16" style={{ letterSpacing: "-0.03em", lineHeight: "1.05" }}>
               {lang === "pt" ? "Como Começar?" : "How to Start?"}
             </h2>
 
